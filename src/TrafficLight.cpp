@@ -16,14 +16,11 @@ move semantics.
 }
 
 template <typename T>
-void MessageQueue<T>::send(T &&msg)
-{
-    // FP.4a : The method send should use the mechanisms
-std::lock_guard<std::mutex>
-    // as well as _condition.notify_one() to add a new message to the queue and
-afterwards send a notification.
+void MessageQueue<T>::send(T &&msg) {
+  std::lock_guard<std::mutex> lck(_msg_queue_mutex);
+  _queue.push_back(std::move(msg));
+  _cond.notify_one();
 }
-*/
 
 /* Implementation of class "TrafficLight" */
 
