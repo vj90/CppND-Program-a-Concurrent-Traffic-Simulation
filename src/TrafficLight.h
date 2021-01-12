@@ -36,7 +36,7 @@ class TrafficLight : public TrafficObject {
  private:
   // typical behaviour methods
   void cycleThroughPhases();
-  
+
   MessageQueue<TrafficLightPhase> _traffic_light_phase_queue;
   std::condition_variable _condition;
   std::mutex _mutex;
