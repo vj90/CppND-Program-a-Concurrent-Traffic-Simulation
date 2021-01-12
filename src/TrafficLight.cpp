@@ -44,10 +44,9 @@ void TrafficLight::simulate() {
 // virtual function which is executed in a thread
 void TrafficLight::cycleThroughPhases() {
   auto start_time = std::chrono::high_resolution_clock::now();
+  srand(time(NULL));
   while (true) {
-    srand(time(NULL));
     auto rand_time = 2 * (rand() % 1000);
-    std::cout << "Random time = " << rand_time;
     const auto threshold = std::chrono::milliseconds(4000 + rand_time);
     const auto current_time = std::chrono::high_resolution_clock::now();
     if (std::chrono::duration_cast<std::chrono::milliseconds>(
