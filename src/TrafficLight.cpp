@@ -16,6 +16,7 @@ T MessageQueue<T>::receive() {
 template <typename T>
 void MessageQueue<T>::send(T &&msg) {
   std::lock_guard<std::mutex> lck(_msg_queue_mutex);
+  _queue.clear();
   _queue.push_back(std::move(msg));
   _cond.notify_one();
 }
@@ -45,8 +46,8 @@ void TrafficLight::simulate() {
 void TrafficLight::cycleThroughPhases() {
   auto start_time = std::chrono::high_resolution_clock::now();
   srand(time(NULL));
+  auto rand_time = 2 * (rand() % 1000);
   while (true) {
-    auto rand_time = 2 * (rand() % 1000);
     const auto threshold = std::chrono::milliseconds(4000 + rand_time);
     const auto current_time = std::chrono::high_resolution_clock::now();
     if (std::chrono::duration_cast<std::chrono::milliseconds>(
